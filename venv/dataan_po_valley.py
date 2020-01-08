@@ -147,10 +147,30 @@ def temp_trend_city(df_city):
     ax.plot(x1,y1,"r")
     plt.show()
 
+def temp_tred_groupcities():
+    y1 = df_ravenna['temp']
+    x1 = df_ravenna['day']
+    y2 = df_faenza['temp']
+    x2 = df_faenza['day']
+    y3 = df_cesena['temp']
+    x3 = df_cesena['day']
+    y4 = df_milano['temp']
+    x4 = df_milano['day']
+    y5 = df_asti['temp']
+    x5 = df_asti['day']
+    y6 = df_torino['temp']
+    x6 = df_torino['day']
+    fig, ax = plt.subplots()
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%h"))
+    plt.plot(x1, y1, 'r', x2, y2, 'r', x3, y3, 'r')
+    plt.plot(x4, y4, 'g', x5, y5, 'g', x6, y6, 'g')
+    plt.show()
+
 df_list = [df_milano, df_ferrara, df_asti, df_bologna, df_cesena,
            df_faenza, df_mantova, df_piacenza, df_ravenna, df_torino]
-for i in range(len(df_list)):
-    temp_trend_city(df_list[i])
+temp_tred_groupcities()
+#for i in range(len(df_list)):
+#    temp_trend_city(df_list[i])
 print(df_cesena)
 
 
