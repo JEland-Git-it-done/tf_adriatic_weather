@@ -166,9 +166,14 @@ def temp_tred_groupcities():
     plt.plot(x4, y4, 'g', x5, y5, 'g', x6, y6, 'g')
     plt.show()
 
+def max_temp_seadistance():
+    plt.plot(dist, temp_max, "ro")
+    plt.show()
+
+
 df_list = [df_milano, df_ferrara, df_asti, df_bologna, df_cesena,
            df_faenza, df_mantova, df_piacenza, df_ravenna, df_torino]
-temp_tred_groupcities()
+max_temp_seadistance()
 #for i in range(len(df_list)):
 #    temp_trend_city(df_list[i])
 print(df_cesena)
