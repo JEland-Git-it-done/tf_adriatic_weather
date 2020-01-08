@@ -136,17 +136,21 @@ hum_max = [df_ravenna['humidity'].max(),
 ]
 
 #print(df_name.shape) to see rows of data, considered unneccessary
-def temp_trend_milano(df_milano):
-    y1 = df_milano["temp"]
-    x1 = df_milano["day"]
+def temp_trend_city(df_city):
+
+    y1 = df_city["temp"]
+    x1 = df_city["day"]
     fig, ax = plt.subplots()
     plt.xticks(rotation=70)
+    title_obj = plt.title(df_city["city"][0])
 
     ax.plot(x1,y1,"r")
     plt.show()
 
-temp_trend_milano(df_milano)
-
+df_list = [df_milano, df_ferrara, df_asti, df_bologna, df_cesena,
+           df_faenza, df_mantova, df_piacenza, df_ravenna, df_torino]
+for i in range(len(df_list)):
+    temp_trend_city(df_list[i])
 print(df_cesena)
 
 
