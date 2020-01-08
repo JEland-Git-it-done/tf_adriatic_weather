@@ -1,7 +1,8 @@
 import numpy as np; import pandas as pd
 import datetime as datetime
 import json; import requests
-#Initialise this file by importing pandas, datetime using pip install x
+import matplotlib.pyplot as plt; import matplotlib.dates as mdates
+#Initialise this file by importing pandas and matplot, datetime using pip install x
 #This program aims to analyse the links between weather data, relating to the adriatic ocean and the po valley
 #Initialises JSON data to city name
 ferrara = json.loads(requests.get('http://api.openweathermap.org/data/2.5/weather?q=Ferrara,IT&APPID=f0fa4704d8ba2c556ca8238a82f9aa75').text)
@@ -57,9 +58,95 @@ def prepare_data(city, city_name):
     city["city"] = city_name
     city["day"] = city["dt"].apply(datetime.datetime.fromtimestamp)
     return city
-t1 = prepare_data(ferrara, "ferrara")
-print(t1)
+#t1 = prepare_data(ferrara, "ferrara")
+#df_ferrara = t1
+#t2 = prepare_data(ferrara, "ferrara")
+#df_ferrara = df_ferrara.append(t2)
+#print(df_ferrara)
+#print(t1)
 
 
+#Uses csv files provided in the work book, found here https://github.com/Apress/python-data-analytics-2e/blob/master/
+
+df_asti=pd.read_csv("asti.csv")
+df_bologna=pd.read_csv("bologna.csv")
+df_cesena=pd.read_csv("cesena.csv")
+df_faenza=pd.read_csv("faenza.csv")
+df_ferrara=pd.read_csv("ferrara.csv")
+df_mantova=pd.read_csv("mantova.csv")
+df_milano=pd.read_csv("milano.csv")
+df_piacenza=pd.read_csv("piacenza.csv")
+df_ravenna=pd.read_csv("ravenna.csv")
+df_torino=pd.read_csv("torino.csv")
+
+dist = [df_ravenna['dist'][0],
+     df_cesena['dist'][0],
+     df_faenza['dist'][0],
+     df_ferrara['dist'][0],
+     df_bologna['dist'][0],
+     df_mantova['dist'][0],
+     df_piacenza['dist'][0],
+     df_milano['dist'][0],
+     df_asti['dist'][0],
+     df_torino['dist'][0]
+]
+temp_max = [df_ravenna['temp'].max(),
+     df_cesena['temp'].max(),
+     df_faenza['temp'].max(),
+     df_ferrara['temp'].max(),
+     df_bologna['temp'].max(),
+     df_mantova['temp'].max(),
+     df_piacenza['temp'].max(),
+     df_milano['temp'].max(),
+     df_asti['temp'].max(),
+     df_torino['temp'].max()
+]
+temp_min = [df_ravenna['temp'].min(),
+     df_cesena['temp'].min(),
+     df_faenza['temp'].min(),
+     df_ferrara['temp'].min(),
+     df_bologna['temp'].min(),
+     df_mantova['temp'].min(),
+     df_piacenza['temp'].min(),
+     df_milano['temp'].min(),
+     df_asti['temp'].min(),
+     df_torino['temp'].min()
+]
+hum_min = [df_ravenna['humidity'].min(),
+     df_cesena['humidity'].min(),
+     df_faenza['humidity'].min(),
+     df_ferrara['humidity'].min(),
+     df_bologna['humidity'].min(),
+     df_mantova['humidity'].min(),
+     df_piacenza['humidity'].min(),
+     df_milano['humidity'].min(),
+     df_asti['humidity'].min(),
+     df_torino['humidity'].min()
+]
+hum_max = [df_ravenna['humidity'].max(),
+     df_cesena['humidity'].max(),
+     df_faenza['humidity'].max(),
+     df_ferrara['humidity'].max(),
+     df_bologna['humidity'].max(),
+     df_mantova['humidity'].max(),
+     df_piacenza['humidity'].max(),
+     df_milano['humidity'].max(),
+     df_asti['humidity'].max(),
+     df_torino['humidity'].max()
+]
+
+#print(df_name.shape) to see rows of data, considered unneccessary
+def temp_trend_milano(df_milano):
+    y1 = df_milano["temp"]
+    x1 = df_milano["day"]
+    fig, ax = plt.subplots()
+    plt.xticks(rotation=70)
+
+    ax.plot(x1,y1,"r")
+    plt.show()
+
+temp_trend_milano(df_milano)
+
+print(df_cesena)
 
 
