@@ -173,6 +173,7 @@ def max_temp_seadistance():
 def max_temp_distance_relational():
     x = np.array(dist)
     y = np.array(temp_max)
+    #X and Y axis split into two groups, those above and below 100 km from the sea
     x1=x[x<100]
     x1=x1.reshape((x1.size,1))
     y1=y[x<100]
@@ -193,6 +194,26 @@ def max_temp_distance_relational():
     plt.axis((0, 400, 27, 32))
     plt.scatter(x, y, c="k", label="data")
     plt.show()
+    def find_point_of_seainfluence():
+        from scipy.optimize import fsolve
+        def line1(x):
+            a1 = svr_lin1.coef_[0][0]
+            b1 = svr_lin2.intercept_[0]
+            return a1*x + b1
+        def line2(x):
+            a2 = svr_lin2.coef_[0][0]
+            b2 = svr_lin2.intercept_[0]
+            return a2*x + b2
+        def find_intersection(fun1, fun2, x0):
+            return fsolve(lambda x : fun1(x) - fun2(x), x0)
+        result = find_intersection(line1, line2, 0.0)
+        print(print("[x,y] = [ %d , %d ]" % (result,line1(result))))
+        x = np.linspace(0,300,31)
+        plt.plot(x,line1(x),x,line2(x),result,line1(result),'ro')
+        plt.show()
+    find_point_of_seainfluence()
+
+
 
 
 df_list = [df_milano, df_ferrara, df_asti, df_bologna, df_cesena,
