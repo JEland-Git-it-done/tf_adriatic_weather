@@ -15,7 +15,6 @@ print("coords = ", ferrara["coord"])
 print("weather =", ferrara["weather"])
 print("base = ", ferrara["base"])
 print("main = ", ferrara["main"])
-print("visibility = ", ferrara["visibility"])
 print("wind = ", ferrara["wind"])
 print("clouds = ", ferrara["clouds"])
 print("dt = ", ferrara["dt"])
@@ -213,13 +212,75 @@ def max_temp_distance_relational():
         plt.show()
     find_point_of_seainfluence()
 
+def min_temp():
+    plt.axis((0,400,15,25))
+    plt.plot(dist, temp_min, "bo")
+    plt.show()
+
+def visualize_humidity():
+    y1 = df_ravenna["humidity"]
+    x1 = df_ravenna["day"]
+    y2 = df_faenza["humidity"]
+    x2 = df_faenza["day"]
+    y3 = df_cesena["humidity"]
+    x3 = df_cesena["day"]
+    y4 = df_milano["humidity"]
+    x4 = df_milano["day"]
+    y5 = df_asti["humidity"]
+    x5 = df_asti["day"]
+    y6 = df_torino["humidity"]
+    x6 = df_torino["day"]
+    fig, ax = plt.subplots()
+    plt.xticks(rotation=70)
+    plt.plot(x1,y1,"r",x2,y2,"r",x3,y3,"r")
+    plt.plot(x4,y4,'g',x5,y5,'g',x6,y6,'g')
+    plt.show()
+
+def rose_wind():
+    plt.plot(df_ravenna["wind_deg"], df_ravenna["wind_speed"], "ro")
+    plt.show()
+    hist, bins = np.histogram(df_ravenna["wind_deg"], 8, [0,360])
+    print(hist)
+    print(bins)
+    show_rose_wind(hist, "Ravenna", max(hist))
+
+def show_rose_wind(values, city_name, max_value):
+    N = 8
+    theta = np.arange(0., 2*np.pi, 2*np.pi / N)
+    radii = np.array(values)
+    plt.axes([0.025, 0.025, 0.95, 0.95], polar=True)
+    colors = [(1-x/max_value, 1-x/max_value, 0.75) for x in radii]
+    plt.bar(theta +np.pi/8, radii, width=(2*np.pi/N), bottom=0.0, color=colors)
+    plt.title(city_name, x=0.2, fontsize=20)
+    plt.show()
+
+def rose_wind_speed(df_city):
+    degs = np.arange(45,361,45)
+    tmp = []
+    for deg in degs:
+        tmp.append(df_city[(df_city['wind_deg']>(deg-46)) & (df_city['wind_deg']<deg)]['wind_speed'].mean())
+    return np.nan_to_num(tmp)
+
+def show_rose_wind_speed(speeds,city_name):
+    N = 8
+    theta = np.arange(0,2 * np.pi, 2 * np.pi / N)
+    radii = np.array(speeds)
+    plt.axes([0.025, 0.025, 0.95, 0.95], polar=True)
+    colors = [(1-x/10.0, 1-x/10.0, 0.75) for x in radii]
+    bars = plt.bar(theta+np.pi/8, radii, width=(2*np.pi/N), bottom=0.0,
+    color=colors)
+    plt.title(city_name,x=0.2, fontsize=20)
+    plt.show()
+
+#Final Method included, considered complete
+show_rose_wind_speed(rose_wind_speed(df_ravenna),'Ravenna')
 
 
 
 df_list = [df_milano, df_ferrara, df_asti, df_bologna, df_cesena,
            df_faenza, df_mantova, df_piacenza, df_ravenna, df_torino]
-max_temp_distance_relational()
+
 #for i in range(len(df_list)):
 #    temp_trend_city(df_list[i])
-print(df_cesena)
+
 
